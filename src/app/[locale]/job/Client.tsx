@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { RouteParams, UseState } from '@/types/common';
 import TopSearch from '@/components/job/TopSearch';
@@ -8,24 +8,25 @@ import Banner from '@/components/job/Banner';
 import FilterActionBar from '@/components/job/FilterActionBar';
 import HiringInfo from '@/components/job/HiringInfo';
 import List from '@/components/job/List';
-import jobSampleData from '@/data/job.sample.json';
 import { BgColors, JobItem, NewJobList } from '@/types/job';
 import { formatWeekDays, getBgColors } from '@/app/[locale]/job/utils';
 import EndOfList from '@/components/job/EndOfList';
+import { ClientProps } from '@/app/[locale]/job/types';
 
 /**
  * Home tab client component
  * @constructor
  */
-export default function Client(): React.JSX.Element {
+export default function Client({ jobSampleData }: ClientProps): React.JSX.Element {
   const params: RouteParams = useParams<RouteParams>();
   const locale: string = params.locale;
   const [isDropdownOpen, setIsDropdownOpen]: UseState<boolean> = useState<boolean>(false);
   const [isSearchOpen, setIsSearchOpen]: UseState<boolean> = useState<boolean>(false);
   const [isHiring, setIsHiring]: UseState<boolean> = useState<boolean>(false);
+  const [jobData, setJobData]: UseState<JobItem[]> = useState<JobItem[]>(jobSampleData as JobItem[]);
   console.log('job', locale);
 
-  const jobListData: NewJobList[] = jobSampleData.map((data: JobItem): NewJobList => {
+  const jobListData: NewJobList[] = jobData.map((data: JobItem): NewJobList => {
     const bgColors: BgColors = getBgColors(data.isClosed);
     const formattedWorkWeekDay: string = formatWeekDays(data.workWeekDays);
     return {
@@ -45,6 +46,10 @@ export default function Client(): React.JSX.Element {
       }
     };
   });
+
+  useEffect((): void => {
+    setJobData(jobSampleData);
+  }, [jobSampleData]);
 
   return (
     <>
