@@ -1,5 +1,5 @@
 import { DAY_MAP } from '@/configs/constants';
-import { BgColors } from '@/types/job';
+import { BgColors, JobItem } from '@/types/job';
 
 export const formatWeekDays = (weekDays: string[]): string => {
   return weekDays.map((day: string): string => DAY_MAP[day] ?? day).join('/');
@@ -13,4 +13,15 @@ export const getBgColors = (isClosed: boolean): BgColors => {
     payAmount: isClosed ? 'bg-neutral-400' : 'bg-primary-bg',
     status: isClosed ? 'bg-neutral-400' : 'bg-black'
   };
+};
+
+export const generateJobList = (createCount: number, baseData: JobItem[], startIndex = 0): JobItem[] => {
+  return Array.from({ length: createCount }, (_: unknown, index: number): JobItem[] =>
+    baseData.map(
+      (data: JobItem): JobItem => ({
+        ...data,
+        id: data.id + (startIndex + index) * 1000
+      })
+    )
+  ).flat();
 };

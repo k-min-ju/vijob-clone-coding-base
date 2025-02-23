@@ -59,6 +59,10 @@ export interface ListProps {
   dataList: NewJobList[];
 }
 
+export interface EndofListProps {
+  onFetchMore?: () => void;
+}
+
 export interface JobItem {
   id: number;
   payAmount: number;

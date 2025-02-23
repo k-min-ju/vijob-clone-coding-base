@@ -12,8 +12,8 @@ import Deadline from '@/components/job/Deadline';
 export default function List({ dataList }: ListProps): React.JSX.Element {
   return (
     <ul className="grid grid-cols-2 gap-[5px] px-4 pt-1">
-      {dataList.map(
-        (data: NewJobList): React.JSX.Element => (
+      {dataList.map((data: NewJobList): React.JSX.Element => {
+        return (
           <li key={data.id} className="relative w-full select-none cursor-pointer">
             <div>
               <div className="relative flex flex-col w-full gap-[10px]">
@@ -34,8 +34,8 @@ export default function List({ dataList }: ListProps): React.JSX.Element {
               </div>
             </div>
           </li>
-        )
-      )}
+        );
+      })}
     </ul>
   );
 }
